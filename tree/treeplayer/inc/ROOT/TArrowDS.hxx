@@ -133,8 +133,6 @@ private:
          if (fLastEntryPerSlot[slot] < entry) {
             ci = fLastChunkPerSlot.at(slot);
          }
-         // This is implied by the two ifs above.
-         assert(fLastEntryPerSlot[slot] > entry);
 
          for (size_t ce = fChunkIndex.size(); ci != ce; ++ci) {
             if (entry < fChunkIndex[ci]) {
