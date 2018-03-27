@@ -1,7 +1,10 @@
 #ifndef ROOT_TARROWTDS
 #define ROOT_TARROWTDS
 
+#pragma GCC diagnostic ignored "-Wshadow"
 #include <arrow/table.h>
+#pragma GCC diagnostic pop
+
 #include <memory>
 
 #include "ROOT/TDataFrame.hxx"
