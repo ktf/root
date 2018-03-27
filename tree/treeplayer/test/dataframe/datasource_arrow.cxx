@@ -57,7 +57,7 @@ TEST(TArrowDS, ColTypeNames)
    EXPECT_TRUE(tds.HasColumn("Age"));
    EXPECT_FALSE(tds.HasColumn("Address"));
 
-   ASSERT_EQ(colNames.size(), 4);
+   ASSERT_EQ(colNames.size(), 4U);
    EXPECT_STREQ("Height", colNames[2].c_str());
    EXPECT_STREQ("Married", colNames[3].c_str());
 
