@@ -219,22 +219,22 @@ private:
 public:
    arrow::Status Visit(const arrow::Int64Type &) override
    {
-      fTypeName = "Long64_t";
+      fTypeName = "int64_t";
       return arrow::Status::OK();
    }
    arrow::Status Visit(const arrow::Int32Type &) override
    {
-      fTypeName = "Long32_t";
+      fTypeName = "int32_t";
       return arrow::Status::OK();
    }
    arrow::Status Visit(const arrow::UInt64Type &) override
    {
-      fTypeName = "ULong64_t";
+      fTypeName = "uint64_t";
       return arrow::Status::OK();
    }
    arrow::Status Visit(const arrow::UInt32Type &) override
    {
-      fTypeName = "ULong32_t";
+      fTypeName = "uint32_t";
       return arrow::Status::OK();
    }
    arrow::Status Visit(const arrow::FloatType &) override
