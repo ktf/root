@@ -4589,6 +4589,12 @@ int RootClingMain(int argc,
    if (gOptSplit)
       CreateDictHeader(splitDictStream, main_dictname);
 
+   if (!gOptNoGlobalUsingStd) {
+     AddNamespaceSTDdeclaration(dictStream);
+     if (gOptSplit) {
+       AddNamespaceSTDdeclaration(splitDictStream);
+     }
+   }
    //---------------------------------------------------------------------------
    // Parse the linkdef or selection.xml file.
    /////////////////////////////////////////////////////////////////////////////
@@ -4832,7 +4838,12 @@ int RootClingMain(int argc,
          constructorTypes.push_back(ROOT::TMetaUtils::RConstructorType("", interp));
       }
    }
-
+   if (!gOptIgnoreExistingDict && gOptNoGlobalUsingStd) {
+     AddNamespaceSTDdeclaration(dictStream);
+     if (gOptSplit) {
+       AddNamespaceSTDdeclaration(splitDictStream);
+     }
+   }
    if (gOptGeneratePCH) {
       AnnotateAllDeclsForPCH(interp, scan);
    } else if (gOptInterpreterOnly) {
