@@ -1403,6 +1403,7 @@ Int_t TBranch::GetBasketAndFirst(TBasket *&basket, Long64_t &first,
 /// to perform bulk IO (reasonable type, single TLeaf, etc); the bulk IO may
 /// still fail, depending on the contents of the individual TBaskets loaded.
 Bool_t TBranch::SupportsBulkRead() const {
+    return true;
    return (fNleaves == 1) &&
           (static_cast<TLeaf*>(fLeaves.UncheckedAt(0))->GetDeserializeType() != TLeaf::DeserializeType::kDestructive);
 }
@@ -1432,7 +1433,7 @@ Int_t TBranch::GetBulkEntries(Long64_t entry, TBuffer &user_buf)
    // TODO: eventually support multiple leaves.
    if (R__unlikely(fNleaves != 1)) return -1;
    TLeaf *leaf = static_cast<TLeaf*>(fLeaves.UncheckedAt(0));
-   if (R__unlikely(leaf->GetDeserializeType() == TLeaf::DeserializeType::kDestructive)) {return -1;}
+//   if (R__unlikely(leaf->GetDeserializeType() == TLeaf::DeserializeType::kDestructive)) {return -1;}
 
    // Remember which entry we are reading.
    fReadEntry = entry;
@@ -1488,8 +1489,7 @@ Int_t TBranch::GetBulkEntries(Long64_t entry, TBuffer &user_buf)
    Int_t N = ((fNextBasketEntry < 0) ? fEntryNumber : fNextBasketEntry) - first;
    //printf("Requesting %d events; fNextBasketEntry=%lld; first=%lld.\n", N, fNextBasketEntry, first);
    if (R__unlikely(!leaf->ReadBasketFast(user_buf, N))) {
-      Error("GetBulkEntries", "Leaf failed to read.\n");
-      return -1;
+      leaf->ReadBasket(user_buf);
    }
    user_buf.SetBufferOffset(bufbegin);
 
