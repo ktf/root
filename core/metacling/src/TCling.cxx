@@ -1055,7 +1055,7 @@ static bool LoadModule(const std::string &ModuleName, cling::Interpreter &interp
 #ifdef __APPLE__
    static std::atomic<int> moduleId = 0;
    int uniqueModuleId = moduleId++;
-   os_signpost_interval_begin(OS_LOG_DEFAULT, uniqueModuleId, "Preloading module", "Preloading Module: %s", ModuleName.c_str());
+   os_signpost_interval_begin(OS_LOG_DEFAULT, uniqueModuleId, "Preloading module", "Preloading Module: %{public}s", ModuleName.c_str());
 #endif
    auto result = interp.loadModule(ModuleName, /*Complain=*/true);
 #ifdef __APPLE__
