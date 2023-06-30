@@ -518,7 +518,8 @@ ClassTemplateDecl::newCommon(ASTContext &C) const {
 ClassTemplateSpecializationDecl *
 ClassTemplateDecl::findSpecialization(ArrayRef<TemplateArgument> Args,
                                       void *&InsertPos) {
-  return findSpecializationImpl(getSpecializations(), InsertPos, Args);
+  auto *Common = getCommonPtr();
+  return findSpecializationImpl(Common->Specializations, InsertPos, Args);
 }
 
 void ClassTemplateDecl::AddSpecialization(ClassTemplateSpecializationDecl *D,
@@ -1235,7 +1236,8 @@ VarTemplateDecl::newCommon(ASTContext &C) const {
 VarTemplateSpecializationDecl *
 VarTemplateDecl::findSpecialization(ArrayRef<TemplateArgument> Args,
                                     void *&InsertPos) {
-  return findSpecializationImpl(getSpecializations(), InsertPos, Args);
+  auto *Common = getCommonPtr();
+  return findSpecializationImpl(Common->Specializations, InsertPos, Args);
 }
 
 void VarTemplateDecl::AddSpecialization(VarTemplateSpecializationDecl *D,
