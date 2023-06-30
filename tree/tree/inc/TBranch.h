@@ -43,10 +43,8 @@ class TTreeCloner;
 class TTreeCache;
 
 namespace ROOT {
-namespace Experimental {
 namespace Internal {
 class TBulkBranchRead;
-}
 }
 namespace Internal {
 class TBranchIMTHelper; ///< A helper class for managing IMT work during TTree:Fill operations.
@@ -60,7 +58,6 @@ const Int_t kBranchAny    = BIT(17); // branch is an object*
 const Int_t kMapObject    = kBranchObject | kBranchAny;
 
 namespace ROOT {
-namespace Experimental {
 namespace Internal {
 
 ///\class TBulkBranchRead
@@ -84,7 +81,6 @@ private:
 };
 }
 }
-}
 
 class TBranch : public TNamed, public TAttFill {
    using TIOFeatures = ROOT::TIOFeatures;
@@ -94,7 +90,7 @@ protected:
    friend class TTreeCloner;
    friend class TTree;
    friend class TBranchElement;
-   friend class ROOT::Experimental::Internal::TBulkBranchRead;
+   friend class ROOT::Internal::TBulkBranchRead;
 
    /// TBranch status bits
    enum EStatusBits {
@@ -108,7 +104,7 @@ protected:
       kDoNotUseBufferMap = BIT(22)     ///< If set, at least one of the entry in the branch will use the buffer's map of classname and objects.
    };
 
-   using BulkObj = ROOT::Experimental::Internal::TBulkBranchRead;
+   using BulkObj = ROOT::Internal::TBulkBranchRead;
    static Int_t fgCount;          ///<! branch counter
    Int_t       fCompress;         ///<  Compression level and algorithm
    Int_t       fBasketSize;       ///<  Initial Size of  Basket Buffer
@@ -211,7 +207,7 @@ public:
            Long64_t *GetBasketEntry() const {return fBasketEntry;}
    virtual Long64_t  GetBasketSeek(Int_t basket) const;
    virtual Int_t     GetBasketSize() const {return fBasketSize;}
-           ROOT::Experimental::Internal::TBulkBranchRead &GetBulkRead() { return fBulk; }
+           ROOT::Internal::TBulkBranchRead &GetBulkRead() { return fBulk; }
    virtual TList    *GetBrowsables();
    virtual const char* GetClassName() const;
            Int_t     GetCompressionAlgorithm() const;
@@ -310,7 +306,6 @@ inline Int_t TBranch::GetCompressionSettings() const
 }
 
 namespace ROOT {
-namespace Experimental {
 namespace Internal {
 
 inline Int_t  TBulkBranchRead::GetBulkEntries(Long64_t evt, TBuffer& user_buf) { return fParent.GetBulkEntries(evt, user_buf); }
@@ -319,7 +314,6 @@ inline Int_t  TBulkBranchRead::GetEntriesSerialized(Long64_t evt, TBuffer& user_
 inline Bool_t TBulkBranchRead::SupportsBulkRead() const { return fParent.SupportsBulkRead(); }
 
 }  // Internal
-}  // Experimental
 }  // ROOT
 
 #endif
