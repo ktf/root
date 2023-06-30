@@ -44,6 +44,11 @@
 #include "TClingUtils.h"
 #include "ClingRAII.h"
 
+#ifdef __APPLE__
+#include <os/signpost.h>
+#include <atomic>
+#endif
+
 using namespace clang;
 using namespace cling;
 using namespace ROOT::Internal;
@@ -469,7 +474,15 @@ bool TClingCallbacks::findInGlobalModuleIndex(DeclarationName Name, bool loadFir
             llvm::errs() << "Loading '" << ModuleName << "' on demand"
                          << " for '" << Name.getAsString() << "'\n";
 
+#ifdef __APPLE__
+         static std::atomic<int> moduleId = 0;
+         int uniqueModuleId = moduleId++;
+         os_signpost_interval_begin(OS_LOG_DEFAULT, uniqueModuleId, "Loading module on demand", "Loading %{public}s on demand for '%{public}s'", ModuleName.data(), Name.getAsString().data());
+#endif
          m_Interpreter->loadModule(ModuleName.str());
+#ifdef __APPLE__
+         os_signpost_interval_end(OS_LOG_DEFAULT, uniqueModuleId, "Loading module on demand");
+#endif
          fIsLoadingModule = false;
          m_LoadedModuleFiles[FileName] = Name;
          if (loadFirstMatchOnly)
